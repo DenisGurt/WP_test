@@ -1,13 +1,13 @@
 <?php
 
+define('THEME_OPT', 'e-theme', true);
+
 /*------------------------------------*\
 	Functions
 \*------------------------------------*/
 
-define('THEME_OPT', 'events-theme', true);
 // Load scripts
-function header_scripts()
-{
+function header_scripts() {
     if ($GLOBALS['pagenow'] != 'wp-login.php' && !is_admin()) {
 
         wp_register_script('themescripts', get_template_directory_uri() . '/assets/js/scripts.js', array('jquery'), '1.0.0'); // Custom scripts
@@ -43,7 +43,6 @@ function init_event_post_type() {
 
 	$args = array(
 		'labels'             => $labels,
-                'description'        => __( 'Description.', THEME_OPT ),
 		'public'             => true,
 		'publicly_queryable' => true,
 		'show_ui'            => true,
@@ -60,6 +59,16 @@ function init_event_post_type() {
 	register_post_type( 'event', $args );
 }
 
+// Custom excerpt length
+function new_excerpt_length($length) {
+	return 20;
+}
+
+// Remove Admin bar
+function remove_admin_bar() {
+    return false;
+}
+
 /*------------------------------------*\
 	Actions + Filters
 \*------------------------------------*/
@@ -68,3 +77,10 @@ function init_event_post_type() {
 add_action('wp_enqueue_scripts', 'header_scripts'); // Add Custom Scripts to wp_head
 add_action('wp_enqueue_scripts', 'load_styles'); // Add Theme Stylesheet
 add_action( 'init', 'init_event_post_type' ); // Register an event post type.
+
+// Add Filters
+add_filter('show_admin_bar', 'remove_admin_bar'); // Remove Admin bar
+add_filter('excerpt_length', 'new_excerpt_length'); // Custom excerpt length
+add_filter('excerpt_more', function($more) {
+	return '...';
+});
