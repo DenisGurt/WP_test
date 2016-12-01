@@ -65,12 +65,12 @@ function init_event_post_type() {
 }
 
 // Custom pagination function
-function get_pagenavi($the_query) {
+function get_pagenavi_array($the_query) {
     $big = 999999999;
     $pagenavi = paginate_links(array(
         'base'		=> str_replace($big, '%#%', get_pagenum_link($big)),
         'format'	=> '?paged=%#%',
-        'type'		=> 'plain',
+        'type'		=> 'array',
         'current'	=> max(1, get_query_var('paged')),
         'total'		=> $the_query->max_num_pages,
         'prev_next'	=> false,

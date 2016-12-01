@@ -18,7 +18,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
-						<a class="navbar-brand" href="<?php echo home_url(); ?>">WP Task</a>
+						<a class="logo" href="<?php echo home_url(); ?>">WP Task</a>
 					</div>
 				</div>
 			</div>
