@@ -10,10 +10,18 @@ get_header(); ?>
 	<div class="container">
 		<div class="row">
 		<?php
-			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+			// Define offset and posts per page
+			$offset = get_event_offset();
 
+			$ppp = 1;
+			if ( get_query_var( 'paged' ) ) {
+				$page_offset = $offset + ( (get_query_var( 'paged' )-1) * $ppp );
+				$offset = $page_offset;
+			}
+
+			$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : (int)$offset+1;
 			$args = array(
-				'posts_per_page'	=> 2,
+				'posts_per_page'	=> $ppp,
 				'post_type'			=> 'event',
 				'orderby'			=> 'meta_value_num',
 				'order'				=> 'ASC',
@@ -27,7 +35,7 @@ get_header(); ?>
 				while( $the_query->have_posts() ) :
 				$the_query->the_post();
 		?>
-				<div class="col-lg-6">
+				<div class="col-lg-12">
 					<div class="event" data-id="<?php echo $post->ID; ?>">
 						<h2>
 							<a href="<?php echo the_permalink(); ?>" title="<?php the_title(); ?>"><?php the_title(); ?></a>
@@ -45,11 +53,26 @@ get_header(); ?>
 				<?php $pagenavi = get_pagenavi_array($the_query); ?>
 				<?php if (is_array($pagenavi)) : ?>
 					<ul class="pagination">
-						<?php foreach ($pagenavi as $key => $link): ?>
+						<?php $offset = get_event_offset(); ?>
+						<?php foreach ($pagenavi as $link): ?>
+							<?php
+								preg_match('/<a[^<>]+?>(.*?)<\/a>/uis', $link, $matches);
+								if (count($matches) > 0) {
+									$page = (int)$matches[1];
+									$link = str_replace('>'.$page.'<', '>'.($page-((int)$offset+1)).'<', $link);
+								}
+
+								preg_match('/<span[^<>]+?>(.*?)<\/span>/uis', $link, $matches);
+								if (count($matches) > 0) {
+									$page = (int)$matches[1];
+									$link = str_replace('>'.$page.'<', '>'.($page-((int)$offset+1)).'<', $link);
+								}
+							?>
 							<li><?php echo $link; ?></li>
 						<?php endforeach; ?>
 					</ul>
 				<?php endif; ?>
+				<!-- /Pagination -->
 			</div>
 		</div>
 		<?php else: ?>

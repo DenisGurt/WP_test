@@ -16,8 +16,9 @@ get_header(); ?>
 				$args = array(
 					'posts_per_page'	=> 5,
 					'post_type'			=> 'event',
-					'orderby'			=> 'date_start',
-					'order'				=> 'DESC',
+					'meta_key'			=> 'start_date',
+					'orderby'			=> 'meta_value_num',
+					'order'				=> 'ASC',
 					'post_status'		=> 'publish',
 					'meta_query' => array(
 						'relation'		=> 'OR',

@@ -65,19 +65,25 @@ function init_event_post_type() {
 }
 
 // Custom pagination function
-function get_pagenavi_array($the_query) {
+function get_pagenavi_array(WP_Query $the_query) {
     $big = 999999999;
+    if (get_query_var('paged')) {
+    	$current = get_query_var('paged');
+    } else {
+    	$current = get_event_offset()+1;
+    }
     $pagenavi = paginate_links(array(
         'base'		=> str_replace($big, '%#%', get_pagenum_link($big)),
         'format'	=> '?paged=%#%',
         'type'		=> 'array',
-        'current'	=> max(1, get_query_var('paged')),
+        'current'	=> $current,
         'total'		=> $the_query->max_num_pages,
         'prev_next'	=> false,
     ));
 
     return $pagenavi;
 }
+
 // Custom Excerpts
 function home_excerpt_length($length) // Create 20 Word Callback for Index page Excerpts, call using html5wp_excerpt('html5wp_index');
 {
@@ -114,6 +120,38 @@ function remove_admin_bar() {
     return false;
 }
 
+// Get event offset
+function get_event_offset() {
+	// Define offset and posts_per_page value
+	$today = date('Ymd');
+	$posts = get_posts(array(
+		'posts_per_page'	=> -1,
+		'post_type'			=> 'event',
+		'orderby'			=> 'date_start',
+		'order'				=> 'DESC',
+		'post_status'		=> 'publish',
+		'meta_query' => array(
+			'relation'		=> 'AND',
+			array(
+				'key'		=> 'start_date',
+				'compare'	=> '<=',
+				'value'		=> $today,
+			),
+			array(
+				'key'		=> 'end_date',
+				'compare'	=> '<=',
+				'value'		=> $today,
+			),
+		)
+	));
+
+	if($posts)
+		return count($posts);
+}
+
+function counting_from_zero($matches) {
+	return $matches[1]-1;
+}
 
 /*------------------------------------*\
 	Actions + Filters
