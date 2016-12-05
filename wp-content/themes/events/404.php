@@ -1,8 +1,9 @@
 <?php get_header(); ?>
 
-	<main role="main">
-		<!-- section -->
-		<section>
+<div id="content">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
 
 			<!-- article -->
 			<article id="post-404">
@@ -15,8 +16,9 @@
 			</article>
 			<!-- /article -->
 
-		</section>
-		<!-- /section -->
-	</main>
+			</div>
+		</div>
+	</div>
+</div>
 
 <?php get_footer(); ?>

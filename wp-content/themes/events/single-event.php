@@ -20,8 +20,19 @@
 						?>
 					</p>
 					<div class="desc"><?php the_content(); ?></div>
+					
 					<?php if (get_field('external_link')): ?>
-						<a href="<?php the_field('external_link'); ?>"><?php _e('More information', THEME_OPT); ?></a>
+						<?php
+							$external_link = get_field('external_link');
+							preg_match( '/^(http|https):\\/\\//', $external_link, $matches);
+							if ( ! $matches) {
+								$external_link = 'http://' . $external_link;
+							}
+						?>
+						<?php if (filter_var($external_link, FILTER_VALIDATE_URL)) : ?>
+							<a href="<?php echo $external_link; ?>"><?php _e('More information', THEME_OPT); ?></a>
+						<?php endif; ?>
+
 					<?php elseif (get_field('news')): ?>
 						<?php $news_arr = get_field('news'); ?>
 						<a href="<?php the_permalink($news_arr[0]->ID); ?>"><?php _e('More information', THEME_OPT); ?></a>
