@@ -346,6 +346,14 @@ function event_wp_head() {
     <?php
 }
 
+// Disable redirect on Events page
+function events_page_disable_redirect($redirect_url) {
+    if (is_page(26))
+        $redirect_url = false;
+    
+    return $redirect_url;
+}
+
 /*------------------------------------*\
 	Actions + Filters
 \*------------------------------------*/
@@ -363,3 +371,4 @@ add_action('admin_init', 'event_register_settings'); // Register Admin Settings
 
 // Add Filters
 add_filter('show_admin_bar', 'remove_admin_bar'); // Remove Admin bar
+add_filter('redirect_canonical','events_page_disable_redirect');
