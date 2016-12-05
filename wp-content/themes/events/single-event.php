@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<main role="main">
+<div id="content">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
@@ -20,7 +20,7 @@
 						?>
 					</p>
 					<div class="desc"><?php the_content(); ?></div>
-					
+
 					<?php if (get_field('external_link')): ?>
 						<?php
 							$external_link = get_field('external_link');
@@ -30,7 +30,7 @@
 							}
 						?>
 						<?php if (filter_var($external_link, FILTER_VALIDATE_URL)) : ?>
-							<a href="<?php echo $external_link; ?>"><?php _e('More information', THEME_OPT); ?></a>
+							<a href="<?php echo $external_link; ?>" target="_blank"><?php _e('More information', THEME_OPT); ?></a>
 						<?php endif; ?>
 
 					<?php elseif (get_field('news')): ?>
@@ -57,5 +57,5 @@
 			</div>
 		</div>
 	</div>
-</main>
+</div>
 <?php get_footer(); ?>

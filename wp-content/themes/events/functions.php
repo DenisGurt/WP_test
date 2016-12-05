@@ -257,7 +257,7 @@ function main_color_display() {
     echo '<input type="text" name="event_theme_options[main_color]" value="' . $val . '" class="color-picker" >';
 }
 
-// Validate Main Logo
+// Validate Options
 function options_validate($input) {
 	$default_options = get_default_options();
     $valid_input = $default_options;
