@@ -1,10 +1,13 @@
 header {
-	background: #15607d;
-	padding: 15px 0;
-	border-bottom: 2px solid #07212b;
+	padding: 5px 0;
+	border-bottom: 1px solid #07212b;
 
 	.logo {
 		font-size: 24px;
 		color: #fff;
+
+		img {
+			max-height: 55px;
+		}
 	}
 }

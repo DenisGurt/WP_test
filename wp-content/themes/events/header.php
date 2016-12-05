@@ -14,11 +14,19 @@
 
 	<!-- wrapper -->
 	<div class="wrapper">
-		<header>
+		<header class="main-color-bg">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12">
-						<a class="logo" href="<?php echo home_url(); ?>">WP Task</a>
+						<?php $event_options = get_option('event_theme_options'); ?>
+ 
+			            <?php if ( $event_options['main_logo'] != '' ): ?>
+			            	<a class="logo" href="<?php echo home_url(); ?>">
+			                    <img src="<?php echo $event_options['main_logo']; ?>" />
+							</a>
+						<?php else: ?>
+							<a class="logo" href="<?php echo home_url(); ?>">WP Task</a>
+			            <?php  endif; ?>
 					</div>
 				</div>
 			</div>
